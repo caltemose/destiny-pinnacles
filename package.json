@@ -1,0 +1,22 @@
+{
+  "name": "destiny-pinnacles",
+  "version": "1.0.0",
+  "description": "Manually-tracked character pinnacle status.",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "publish": "cp index.html docs/index.html & cp index.js docs/index.js & cp style.css docs/style.css"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/caltemose/destiny-pinnacles.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/caltemose/destiny-pinnacles/issues"
+  },
+  "homepage": "https://github.com/caltemose/destiny-pinnacles#readme"
+}
