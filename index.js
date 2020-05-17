@@ -37,14 +37,16 @@ Zepto(function ($) {
     const getRow = function (label, titanId, titanChecked, warlockId, warlockChecked, hunterId, hunterChecked) {
         var markup = '<tr><td>' + label + '</td><td><input id="' + titanId + '" type="checkbox" ';
         markup += titanChecked ? 'checked />' : '/>';
-        markup += '</td>';
+        markup += '<label for="' + titanId + '"></label></td>';
         
         markup += '<td><input id="' + warlockId + '" type="checkbox" ';
         markup += warlockChecked ? 'checked />' : '/>';
+        markup += '<label for="' + warlockId + '"></label>';
         markup += '</td>';
 
         markup += '<td><input id="' + hunterId + '" type="checkbox" ';
         markup += hunterChecked ? 'checked />' : '/>';
+        markup += '<label for="' + hunterId + '"></label>';
         markup += '</td>';
 
         return $(markup);
