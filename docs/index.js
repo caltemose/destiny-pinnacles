@@ -1,24 +1,48 @@
 var prefs = {};
 const classes = [ 'titan', 'warlock', 'hunter' ];
-const activities = [ 'strikes', 'gambit', 'crucible', 'poh', 'nf100k', 'mnh', 'gos' ];
+// const activities = [ 'strikes', 'gambit', 'crucible', 'poh', 'nf100k', 'mnh', 'gos' ];
+
+const levels = [
+    'power1',
+    'power2',
+    'power3',
+    'pinnacle',
+];
+
+const activities = [
+    { name: 'strikes', label: 'Strikes', level: 4 },
+    { name: 'strikes_bounties', label: 'Strike Bounties', level: 1 },
+    { name: 'crucible', label: 'Crucible', level: 4 },
+    { name: 'crucible_bounties', label: 'Crucible Bounties', level: 1 },
+    { name: 'gambit', label: 'Gambit', level: 4 },
+    { name: 'gambit_bounties', label: 'Gambit Bounties', level: 1 },
+    { name: 'exo_challenge', label: 'Exo Challenge', level: 4 },
+    { name: 'exo_stranger', label: 'Exo Stranger', level: 1 },
+    { name: 'variks_bounties', label: 'Variks Bounties', level: 1 },
+    { name: 'prophecy', label: 'Prophecy Dungeon', level: 4 },
+    { name: 'dsc', label: 'DSC Raid', level: 4 },
+    { name: 'wrathborn_hunts', label: 'Wrathborn Hunts', level: 4 },
+    { name: 'wrathborn_celebrant', label: 'Wrathborn High Celebrant', level: 4 },
+    { name: 'nightfall_100k', label: '100k Nightfall', level: 4 },
+    { name: 'nightfall', label: 'Nightfall Powerfull', level: 1 },
+    { name: 'empire_master', label: 'Empire Hunt Master', level: 4 },
+    { name: 'empire', label: 'Empire Hunt Powerfull', level: 1 },
+];
+
+const activityKeys = Object.keys(activities);
 
 Zepto(function ($) {
     const render = function ($container, prefs) {
         const $table = $('<table />');
         $table.append($('<tr><th>Activity</th><th>Titan</th><th>Warlock</th><th>Hunter</th></tr>'));
 
-        $table.append(getRow('Strikes', 'strikes-titan', prefs.titan.strikes, 'strikes-warlock', prefs.warlock.strikes, 'strikes-hunter', prefs.hunter.strikes));
-        $table.append(getRow('Gambit', 'gambit-titan', prefs.titan.gambit, 'gambit-warlock', prefs.warlock.gambit, 'gambit-hunter', prefs.hunter.gambit));
-        $table.append(getRow('Crucible', 'crucible-titan', prefs.titan.crucible, 'crucible-warlock', prefs.warlock.crucible, 'crucible-hunter', prefs.hunter.crucible));
-        $table.append(getRow('Pit', 'poh-titan', prefs.titan.poh, 'poh-warlock', prefs.warlock.poh, 'poh-hunter', prefs.hunter.poh));
-        $table.append(getRow('100k', 'nf100k-titan', prefs.titan.nf100k, 'nf100k-warlock', prefs.warlock.nf100k, 'nf100k-hunter', prefs.hunter.nf100k));
-        $table.append(getRow('MNH', 'mnh-titan', prefs.titan.mnh, 'mnh-warlock', prefs.warlock.mnh, 'mnh-hunter', prefs.hunter.mnh));
-        $table.append(getRow('GoS', 'gos-titan', prefs.titan.gos, 'gos-warlock', prefs.warlock.gos, 'gos-hunter', prefs.hunter.gos));
-
+        activityKeys.forEach(key => {
+            const activity = activities[key];
+            $table.append(getRow(activity, `${activity.name}-titan`, prefs.titan[activity.name], `${activity.name}-warlock`, prefs.warlock[activity.name], `${activity.name}-hunter`, prefs.hunter[activity.name]));
+        });
         $container.append($table);
         
         activateCheckboxes();
-
         addResetButton($container);
     }
 
@@ -34,8 +58,8 @@ Zepto(function ($) {
         resetCheckboxes();
     }
 
-    const getRow = function (label, titanId, titanChecked, warlockId, warlockChecked, hunterId, hunterChecked) {
-        var markup = '<tr><td>' + label + '</td><td><input id="' + titanId + '" type="checkbox" ';
+    const getRow = function (activity, titanId, titanChecked, warlockId, warlockChecked, hunterId, hunterChecked) {
+        var markup = `<tr class="level-${levels[activity.level-1]}"><td>` + activity.label + '</td><td><input id="' + titanId + '" type="checkbox" ';
         markup += titanChecked ? 'checked />' : '/>';
         markup += '<label for="' + titanId + '"></label></td>';
         
@@ -53,17 +77,17 @@ Zepto(function ($) {
     }
 
     const activateCheckboxes = function () {
-        $.each(classes, function (c, classItem) {
+        $.each(classes, function (c, className) {
             $.each(activities, function (a, activityItem) {
-                $('#' + activityItem + '-' + classItem).on('click', changeItem);
+                $('#' + activityItem.name + '-' + className).on('click', changeItem);
             });
         });
     }
 
     const resetCheckboxes = function () {
-        $.each(classes, function (c, classItem) {
+        $.each(classes, function (c, className) {
             $.each(activities, function (a, activityItem) {
-                $('#' + activityItem + '-' + classItem).prop('checked', false);
+                $('#' + activityItem.name + '-' + className).prop('checked', false);
             });
         });
     }
@@ -89,35 +113,14 @@ Zepto(function ($) {
     }
 
     const getDefaultPrefs = function () {
-        return {
-            titan: {
-                strikes: 0,
-                gambit: 0,
-                crucible: 0,
-                poh: 0,
-                nf000k: 0,
-                mnh: 0,
-                gos: 0
-            },
-            warlock: {
-                strikes: 0,
-                gambit: 0,
-                crucible: 0,
-                poh: 0,
-                nf000k: 0,
-                mnh: 0,
-                gos: 0
-            },
-            hunter: {
-                strikes: 0,
-                gambit: 0,
-                crucible: 0,
-                poh: 0,
-                nf000k: 0,
-                mnh: 0,
-                gos: 0
-            }
-        };
+        const prefs = {titan: {}, warlock: {}, hunter: {}};
+        classes.forEach(function (cla) {
+            activityKeys.forEach(key => {
+                const activity = activities[key];
+                prefs[cla][activity.name] = 0;
+            });
+        });
+        return prefs;
     }
 
     checkStorage();
