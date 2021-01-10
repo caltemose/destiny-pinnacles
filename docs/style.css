@@ -95,5 +95,5 @@ input[type="checkbox"]:checked + label:after {
 }
 
 .level-pinnacle {
-    background-color: #302e56;
+    background-color: rgb(141, 41, 115);
 }
