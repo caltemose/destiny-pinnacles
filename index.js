@@ -10,6 +10,7 @@ const levels = [
 ];
 
 const activities = [
+    { name: 'banshee_bounties', label: 'Banshee Bounties', level: 1 },
     { name: 'strikes', label: 'Strikes', level: 4 },
     { name: 'strikes_bounties', label: 'Strike Bounties', level: 1 },
     { name: 'crucible', label: 'Crucible', level: 4 },
@@ -95,7 +96,6 @@ Zepto(function ($) {
     const changeItem = function (event) {
         const $target = $(event.target);
         const spl = $target.attr('id').split('-'); 
-        // spl[0] = activity, spl[1] = class
         updateStorage(spl[1], spl[0], $target.is(':checked'));
     }
 
